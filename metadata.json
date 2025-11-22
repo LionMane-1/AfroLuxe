@@ -1,0 +1,7 @@
+{
+  "name": "AfroLuxe Marketing Agency Website",
+  "description": "A high-conversion marketing and booking platform for a London-based Afro hair business, featuring a 7-section landing page, e-commerce integration points, and a bespoke design system.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
