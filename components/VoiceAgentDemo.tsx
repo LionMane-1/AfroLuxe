@@ -210,7 +210,10 @@ export const VoiceAgentDemo: React.FC = () => {
           speechConfig: {
             voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } },
           },
-          systemInstruction: `You are Lola, the AI Receptionist for AfroLuxe. Be warm, professional, and concise. 
+          systemInstruction: `You are Melanie, the AI Receptionist for AfroLuxe in Brixton, London. 
+          Speak with a warm, distinct British accent that has a clear Jamaican influence (London Multicultural English). 
+          You are friendly, professional, and culturally connected to the Afro hair community.
+          
           Services: Silk Press (£85), Knotless Braids (£120), Twist Out (£65), Consultation (£40).
           Location: 123 High Street, Brixton.
           Keep answers short and conversational.`,
@@ -245,7 +248,7 @@ export const VoiceAgentDemo: React.FC = () => {
             <div className="bg-primary p-4 flex justify-between items-center">
               <div className="flex items-center gap-2 text-white">
                 <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="font-serif font-bold">Talk to Lola</span>
+                <span className="font-serif font-bold">Talk to Melanie</span>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
@@ -294,7 +297,7 @@ export const VoiceAgentDemo: React.FC = () => {
                       <p className="text-red-500 font-medium text-xs">{error}</p>
                   ) : isConnected ? (
                       <p className="text-primary dark:text-secondary font-medium text-sm animate-pulse">
-                          {isSpeaking ? "Lola is speaking..." : "Listening..."}
+                          {isSpeaking ? "Melanie is speaking..." : "Listening..."}
                       </p>
                   ) : (
                       <p className="text-slate-500 dark:text-slate-400 text-xs">

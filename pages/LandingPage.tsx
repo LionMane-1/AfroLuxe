@@ -166,7 +166,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
             {
-              name: "Lola",
+              name: "Melanie",
               role: "Voice Receptionist",
               icon: <PhoneOff />,
               desc: "Answers every call, books appointments directly into your calendar, and answers client questions instantly.",
