@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Section } from '../components/Section';
 import { Button } from '../components/Button';
 import { Star, CheckCircle, Calendar, TrendingUp, MessageSquare, Bot, Sparkles, Zap, MessageCircle, PhoneOff, Target, LineChart, Rocket, ArrowRight } from 'lucide-react';
@@ -28,6 +28,20 @@ const staggerContainer = {
 };
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      setMousePos({ x: event.pageX, y: event.pageY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
   return (
     <>
       {/* SECTION 1: Bespoke Hero Section */}
@@ -36,6 +50,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         <div className="absolute top-0 right-0 w-2/3 h-full bg-primary/10 skew-x-12 translate-x-32 z-0"></div>
         <div className="absolute -bottom-32 -left-32 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] z-0"></div>
         
+        {/* Soft Spotlight Effect */}
+        <div 
+            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
+            style={{
+                background: `radial-gradient(800px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.06), transparent 40%)`
+            }}
+        ></div>
+
         <div className="max-w-7xl mx-auto px-6 w-full relative z-10 grid lg:grid-cols-2 gap-16 items-center">
           <motion.div 
             initial="hidden"
