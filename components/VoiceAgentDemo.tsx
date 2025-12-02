@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI, LiveServerMessage, Modality, Blob } from "@google/genai";
 import { Mic, Phone, PhoneOff, Activity, Volume2, X, MessageSquare, ChevronDown, Minimize2 } from 'lucide-react';
@@ -210,13 +211,24 @@ export const VoiceAgentDemo: React.FC = () => {
           speechConfig: {
             voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } },
           },
-          systemInstruction: `You are Melanie, the AI Receptionist for AfroLuxe in Brixton, London. 
-          Speak with a warm, distinct British accent that has a clear Jamaican influence (London Multicultural English). 
-          You are friendly, professional, and culturally connected to the Afro hair community.
+          systemInstruction: `You are Melanie, a Senior Growth Strategist at AfroLuxe Marketing Agency in Brixton.
           
-          Services: Silk Press (£85), Knotless Braids (£120), Twist Out (£65), Consultation (£40).
-          Location: 123 High Street, Brixton.
-          Keep answers short and conversational.`,
+          Tone: Professional, Warm, Distinct British-Jamaican accent (London Multicultural English). Confident but not pushy.
+          
+          Your Goal: Qualify the salon owner and get them to book a 'Free Strategy Call'.
+          
+          Key Talking Points:
+          1. Ask about their biggest pain point (Empty chairs? No time? Bad reviews?).
+          2. Challenge them: "If you don't fix this, where will the salon be in 6 months?"
+          3. Objection Handling: 
+             - If they say "Too expensive": Remind them that one lost client costs them £100+. Our system pays for itself with 5 bookings.
+             - If they say "I can do it myself": Ask "Do you want to be a marketer or a stylist? You lose money when you aren't braiding."
+          
+          Pricing:
+          - Essentials: £495/mo (Website + Basic SEO)
+          - Growth Engine: £1,250/mo (Full AI Team + Ads)
+          
+          Keep answers short (under 3 sentences). Always end with a question to keep the conversation moving.`,
         },
       };
 
@@ -301,7 +313,7 @@ export const VoiceAgentDemo: React.FC = () => {
                       </p>
                   ) : (
                       <p className="text-slate-500 dark:text-slate-400 text-xs">
-                          Ask about appointments, prices, or styling advice.
+                          Ask about pricing, services, or how to grow your salon.
                       </p>
                   )}
               </div>
