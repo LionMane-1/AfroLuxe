@@ -1,3 +1,4 @@
+
 export enum Page {
   LANDING = 'LANDING',
   SERVICES = 'SERVICES',
@@ -6,7 +7,8 @@ export enum Page {
   LOGIN = 'LOGIN',
   BOOKING = 'BOOKING',
   CONTACT = 'CONTACT',
-  BLOG = 'BLOG'
+  BLOG = 'BLOG',
+  BLOG_POST_TIME_AUDIT = 'BLOG_POST_TIME_AUDIT'
 }
 
 export interface ServiceItem {

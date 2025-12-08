@@ -10,6 +10,7 @@ import { AuthPage } from './pages/AuthPage';
 import { BookingPage } from './pages/BookingPage';
 import { ContactPage } from './pages/ContactPage';
 import { BlogPage } from './pages/BlogPage';
+import { BlogPost_TimeAudit } from './pages/BlogPost_TimeAudit';
 import { Page } from './types';
 import { AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
@@ -45,6 +46,8 @@ const App: React.FC = () => {
         return <ContactPage />;
       case Page.BLOG:
         return <BlogPage onNavigate={setCurrentPage} />;
+      case Page.BLOG_POST_TIME_AUDIT:
+        return <BlogPost_TimeAudit onNavigate={setCurrentPage} />;
       default:
         return <LandingPage onNavigate={setCurrentPage} />;
     }

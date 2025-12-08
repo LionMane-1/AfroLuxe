@@ -15,6 +15,7 @@ interface BlogPost {
   category: string;
   image: string;
   link?: string;
+  internalPage?: Page;
 }
 
 export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNavigate }) => {
@@ -27,7 +28,7 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
       author: "Melanie S.",
       category: "Trends & Techniques",
       image: "https://picsum.photos/600/400?random=26",
-      link: "https://aistudio.google.com/apps/drive/1bLVYiML8B7fMEDMzs4HStmrGLVl18Hg-?showPreview=true&showAssistant=true"
+      internalPage: Page.BLOG_POST_TIME_AUDIT
     },
     {
       id: 1,
@@ -120,11 +121,16 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                                 />
                             </a>
                         ) : (
-                            <img 
-                                src={post.image} 
-                                alt={post.title} 
-                                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                            />
+                            <div 
+                                onClick={() => post.internalPage && onNavigate(post.internalPage)}
+                                className={`w-full h-full ${post.internalPage ? 'cursor-pointer' : ''}`}
+                            >
+                                <img 
+                                    src={post.image} 
+                                    alt={post.title} 
+                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                />
+                            </div>
                         )}
                         <div className="absolute top-4 left-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide text-primary dark:text-secondary border border-slate-200 dark:border-slate-700 pointer-events-none">
                             {post.category}
@@ -157,9 +163,14 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                                 </h3>
                             </a>
                         ) : (
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 font-serif leading-tight group-hover:text-primary dark:group-hover:text-secondary transition-colors">
-                                {post.title}
-                            </h3>
+                            <div 
+                                onClick={() => post.internalPage && onNavigate(post.internalPage)}
+                                className={`${post.internalPage ? 'cursor-pointer hover:text-primary dark:hover:text-secondary transition-colors' : ''}`}
+                            >
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 font-serif leading-tight">
+                                    {post.title}
+                                </h3>
+                            </div>
                         )}
                         
                         <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6 flex-grow">
@@ -183,7 +194,9 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                                 className="flex items-center gap-2 text-sm font-bold text-primary dark:text-secondary group/btn w-fit cursor-pointer hover:underline mt-auto"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    /* Placeholder for internal post navigation */
+                                    if (post.internalPage) {
+                                        onNavigate(post.internalPage);
+                                    }
                                 }}
                             >
                                 Read Article 
