@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Section, PageHeader } from '../components/Section';
-import { Button } from '../components/Button';
 import { Page } from '../types';
 import { Calendar, User, ArrowRight, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -28,7 +27,8 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
       author: "Melanie S.",
       category: "Trends & Techniques",
       image: "https://picsum.photos/600/400?random=26",
-      internalPage: Page.BLOG_POST_TIME_AUDIT
+      // IMPORTANT: No 'link' property here. Internal navigation only.
+      internalPage: Page.BLOG_POST_TIME_AUDIT 
     },
     {
       id: 1,
@@ -37,7 +37,8 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
       date: "Jan 12, 2025",
       author: "Melanie S.",
       category: "Growth Strategy",
-      image: "https://picsum.photos/600/400?random=20"
+      image: "https://picsum.photos/600/400?random=20",
+      // Placeholder link for other posts (acts as external for demo purposes if needed, or non-functional)
     },
     {
       id: 2,
@@ -86,6 +87,18 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
     }
   ];
 
+  const handlePostClick = (post: BlogPost) => {
+    if (post.internalPage) {
+        onNavigate(post.internalPage);
+    } else if (post.link) {
+        window.open(post.link, '_blank');
+    } else {
+        // Fallback for demo posts without real links
+        // We could also show a "Coming Soon" toast here
+        console.log("No link defined for this post");
+    }
+  };
+
   return (
     <>
       <PageHeader 
@@ -104,34 +117,16 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                     transition={{ delay: idx * 0.1 }}
                     className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col h-full group"
                 >
-                    {/* Image Section */}
-                    <div className="relative h-48 overflow-hidden">
-                        {post.link ? (
-                            <a 
-                                href={post.link} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="block w-full h-full cursor-pointer"
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                <img 
-                                    src={post.image} 
-                                    alt={post.title} 
-                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                                />
-                            </a>
-                        ) : (
-                            <div 
-                                onClick={() => post.internalPage && onNavigate(post.internalPage)}
-                                className={`w-full h-full ${post.internalPage ? 'cursor-pointer' : ''}`}
-                            >
-                                <img 
-                                    src={post.image} 
-                                    alt={post.title} 
-                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                                />
-                            </div>
-                        )}
+                    {/* Image Section - Clickable */}
+                    <div 
+                        className="relative h-48 overflow-hidden cursor-pointer"
+                        onClick={() => handlePostClick(post)}
+                    >
+                        <img 
+                            src={post.image} 
+                            alt={post.title} 
+                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                        />
                         <div className="absolute top-4 left-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide text-primary dark:text-secondary border border-slate-200 dark:border-slate-700 pointer-events-none">
                             {post.category}
                         </div>
@@ -150,59 +145,36 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                             </div>
                         </div>
 
-                        {post.link ? (
-                            <a 
-                                href={post.link} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="block group/title"
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 font-serif leading-tight group-hover/title:text-primary dark:group-hover/title:text-secondary transition-colors">
-                                    {post.title}
-                                </h3>
-                            </a>
-                        ) : (
-                            <div 
-                                onClick={() => post.internalPage && onNavigate(post.internalPage)}
-                                className={`${post.internalPage ? 'cursor-pointer hover:text-primary dark:hover:text-secondary transition-colors' : ''}`}
-                            >
-                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 font-serif leading-tight">
-                                    {post.title}
-                                </h3>
-                            </div>
-                        )}
+                        {/* Title - Clickable */}
+                        <div 
+                            onClick={() => handlePostClick(post)}
+                            className="cursor-pointer group/title"
+                        >
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 font-serif leading-tight group-hover/title:text-primary dark:group-hover/title:text-secondary transition-colors">
+                                {post.title}
+                            </h3>
+                        </div>
                         
                         <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6 flex-grow">
                             {post.excerpt}
                         </p>
                         
-                        {/* Call to Action */}
-                        {post.link ? (
-                            <a 
-                                href={post.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-2 text-sm font-bold text-primary dark:text-secondary group/btn w-fit cursor-pointer hover:underline mt-auto"
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                Read External Article 
+                        {/* Call to Action - Clickable */}
+                        <button 
+                            className="flex items-center gap-2 text-sm font-bold text-primary dark:text-secondary group/btn w-fit cursor-pointer hover:underline mt-auto"
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevent double click if bubble up
+                                handlePostClick(post);
+                            }}
+                        >
+                            {post.internalPage ? "Read Article" : (post.link ? "Read External Article" : "Coming Soon")} 
+                            
+                            {post.link ? (
                                 <ExternalLink className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
-                            </a>
-                        ) : (
-                            <button 
-                                className="flex items-center gap-2 text-sm font-bold text-primary dark:text-secondary group/btn w-fit cursor-pointer hover:underline mt-auto"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    if (post.internalPage) {
-                                        onNavigate(post.internalPage);
-                                    }
-                                }}
-                            >
-                                Read Article 
+                            ) : (
                                 <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
-                            </button>
-                        )}
+                            )}
+                        </button>
                     </div>
                 </motion.div>
             ))}
@@ -219,7 +191,7 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                         placeholder="Enter your email address" 
                         className="px-6 py-3 rounded-lg text-slate-900 outline-none focus:ring-2 focus:ring-secondary w-full sm:w-80"
                     />
-                    <Button variant="secondary" className="whitespace-nowrap">Subscribe Free</Button>
+                    <button className="px-8 py-3.5 font-bold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 text-sm tracking-wide uppercase bg-secondary text-white hover:bg-amber-600 hover:shadow-lg whitespace-nowrap">Subscribe Free</button>
                 </div>
             </div>
         </div>
