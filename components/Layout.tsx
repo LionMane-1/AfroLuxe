@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Page } from '../types';
 import { Menu, X, Scissors, Instagram, Facebook, Twitter, Phone, Sun, Moon, Linkedin, MessageCircle } from 'lucide-react';
@@ -185,7 +186,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
               <div className="bg-white p-2 rounded-full">
                 <Scissors className="w-5 h-5 text-primary" />
               </div>
-              <span className="text-2xl font-serif font-bold">AfroLuxe</span>
+              <span className="text-2xl font-serif font-bold">Afro Hair Lux Marketing</span>
             </div>
             <p className="text-slate-300 max-w-sm leading-relaxed">
               London's premier destination for natural Afro hair care. We specialize in protective styling, treatments, and empowering you to love your crown.
@@ -213,15 +214,18 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
           <div>
             <h3 className="text-secondary font-serif text-lg mb-6">Contact</h3>
             <ul className="space-y-3 text-slate-300 text-sm">
-              <li>123 High Street, Brixton</li>
-              <li>London, SW2 1AA</li>
-              <li>hello@afroluxe.co.uk</li>
+              <li>7a Electric Lane</li>
+              <li>Brixton</li>
+              <li>SW9 8LA</li>
+              <li>London</li>
+              <li>England</li>
+              <li className="pt-2">hello@afroluxe.co.uk</li>
               <li>+44 20 7123 4567</li>
             </ul>
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-white/10 text-center text-xs text-slate-400">
-          © {new Date().getFullYear()} AfroLuxe Ltd. All rights reserved. Built on Aura.build.
+          © {new Date().getFullYear()} Afro Hair Lux Marketing. All rights reserved. Built on Aura.build.
         </div>
       </footer>
     </div>
