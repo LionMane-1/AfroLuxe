@@ -6,8 +6,29 @@ import { Page } from '../types';
 import { Calendar, User, ArrowRight, Tag } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  category: string;
+  image: string;
+  link?: string;
+}
+
 export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNavigate }) => {
-  const posts = [
+  const posts: BlogPost[] = [
+    {
+      id: 7,
+      title: "30-Minute Wash Days? Yes, It's Possible. Here's The Routine",
+      excerpt: "Tired of 3-hour wash days? Discover actionable afro hair hacks for 2025 tailored for busy professionals. From the 'Time-Audit' routine to heatless stretching secrets, learn how to save time without sacrificing moisture.",
+      date: "Dec 08, 2025",
+      author: "Melanie S.",
+      category: "Trends & Techniques",
+      image: "https://picsum.photos/600/400?random=26",
+      link: "https://aistudio.google.com/apps/drive/1bLVYiML8B7fMEDMzs4HStmrGLVl18Hg-?showPreview=true&showAssistant=true"
+    },
     {
       id: 1,
       title: "5 Ways to Fill Empty Chairs in January",
@@ -83,12 +104,22 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                     className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col h-full group"
                 >
                     <div className="relative h-48 overflow-hidden">
-                        <img 
-                            src={post.image} 
-                            alt={post.title} 
-                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className="absolute top-4 left-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide text-primary dark:text-secondary border border-slate-200 dark:border-slate-700">
+                        {post.link ? (
+                            <a href={post.link} target="_blank" rel="noopener noreferrer" className="block w-full h-full cursor-pointer">
+                                <img 
+                                    src={post.image} 
+                                    alt={post.title} 
+                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                />
+                            </a>
+                        ) : (
+                            <img 
+                                src={post.image} 
+                                alt={post.title} 
+                                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                            />
+                        )}
+                        <div className="absolute top-4 left-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide text-primary dark:text-secondary border border-slate-200 dark:border-slate-700 pointer-events-none">
                             {post.category}
                         </div>
                     </div>
@@ -105,21 +136,37 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                             </div>
                         </div>
 
-                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 font-serif leading-tight group-hover:text-primary dark:group-hover:text-secondary transition-colors">
-                            {post.title}
-                        </h3>
+                        {post.link ? (
+                            <a href={post.link} target="_blank" rel="noopener noreferrer" className="block group/title">
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 font-serif leading-tight group-hover/title:text-primary dark:group-hover/title:text-secondary transition-colors">
+                                    {post.title}
+                                </h3>
+                            </a>
+                        ) : (
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 font-serif leading-tight group-hover:text-primary dark:group-hover:text-secondary transition-colors">
+                                {post.title}
+                            </h3>
+                        )}
                         
                         <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6 flex-grow">
                             {post.excerpt}
                         </p>
                         
-                        <button 
-                            className="flex items-center gap-2 text-sm font-bold text-primary dark:text-secondary group/btn w-fit"
-                            onClick={() => { /* Placeholder for individual post view */ }}
+                        <a 
+                            href={post.link || '#'}
+                            target={post.link ? "_blank" : undefined}
+                            rel={post.link ? "noopener noreferrer" : undefined}
+                            className="flex items-center gap-2 text-sm font-bold text-primary dark:text-secondary group/btn w-fit cursor-pointer hover:underline"
+                            onClick={(e) => {
+                                if (!post.link) {
+                                    e.preventDefault();
+                                    /* Placeholder for internal navigation or modal */
+                                }
+                            }}
                         >
                             Read Article 
                             <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
-                        </button>
+                        </a>
                     </div>
                 </motion.div>
             ))}
