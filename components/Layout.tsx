@@ -33,11 +33,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-light text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
       {/* Sticky Navigation */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 border-b border-white/10 dark:border-slate-800 ${
-          isScrolled ? 'bg-white/60 dark:bg-slate-950/95 backdrop-blur-md shadow-md py-3' : 'bg-white/60 dark:bg-slate-950/80 backdrop-blur-md py-5'
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 border-b border-white/20 dark:border-slate-800 ${
+          isScrolled ? 'bg-white/70 dark:bg-slate-950/95 backdrop-blur-md shadow-md py-3' : 'bg-white/50 dark:bg-slate-950/80 backdrop-blur-md py-5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -106,7 +106,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
                 {/* Theme Toggle Button */}
                 <button
                   onClick={toggleTheme}
-                  className="p-2 rounded-full text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
+                  className="p-2 rounded-full text-slate-600 hover:bg-white/50 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
                   aria-label="Toggle Dark Mode"
                 >
                   {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5 text-secondary" />}

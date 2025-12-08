@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface SectionProps {
@@ -18,7 +17,7 @@ export const Section: React.FC<SectionProps> = ({
 }) => {
   const bgColors = {
     white: 'bg-white dark:bg-slate-950',
-    light: 'bg-slate-50 dark:bg-slate-900',
+    light: 'bg-subtle/40 dark:bg-slate-900', // Updated from slate-50 to subtle blue tint
     dark: 'bg-slate-900 text-white dark:bg-black',
     primary: 'bg-primary text-white dark:bg-blue-950',
     luxury: 'bg-slate-900 text-white relative overflow-hidden'

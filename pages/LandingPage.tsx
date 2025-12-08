@@ -6,6 +6,7 @@ import { Star, CheckCircle, Calendar, TrendingUp, MessageSquare, Bot, Sparkles, 
 import { Page } from '../types';
 import { VoiceAgentDemo } from '../components/VoiceAgentDemo';
 import { motion } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 
 interface LandingPageProps {
   onNavigate: (page: Page) => void;
@@ -29,6 +30,7 @@ const staggerContainer = {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const { theme } = useTheme();
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -42,19 +44,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     };
   }, []);
 
+  // Adjust spotlight color based on theme
+  const spotlightColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.06)' : 'rgba(30, 58, 138, 0.03)';
+
   return (
     <>
       {/* SECTION 1: Bespoke Hero Section */}
-      <div className="relative min-h-screen flex items-center bg-slate-900 overflow-hidden pt-20">
+      <div className="relative bg-white dark:bg-slate-900 overflow-hidden py-16 md:py-24 transition-colors duration-500">
         {/* Abstract Backgrounds */}
-        <div className="absolute top-0 right-0 w-2/3 h-full bg-primary/10 skew-x-12 translate-x-32 z-0"></div>
-        <div className="absolute -bottom-32 -left-32 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] z-0"></div>
+        <div className="absolute top-0 right-0 w-2/3 h-full bg-primary/5 dark:bg-primary/10 skew-x-12 translate-x-32 z-0"></div>
+        <div className="absolute -bottom-32 -left-32 w-[600px] h-[600px] bg-primary/10 dark:bg-primary/20 rounded-full blur-[120px] z-0"></div>
         
         {/* Soft Spotlight Effect */}
         <div 
             className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
             style={{
-                background: `radial-gradient(800px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.06), transparent 40%)`
+                background: `radial-gradient(800px circle at ${mousePos.x}px ${mousePos.y}px, ${spotlightColor}, transparent 40%)`
             }}
         ></div>
 
@@ -65,16 +70,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             variants={staggerContainer}
             className="space-y-8"
           >
-            <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-secondary text-sm font-medium tracking-wide">
+            <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 dark:bg-white/5 dark:border-white/10 text-secondary text-sm font-medium tracking-wide">
               <span className="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
               The #1 Growth Partner for UK Afro Salons
             </motion.div>
 
-            <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl lg:text-7xl font-serif text-white leading-[1.1]">
-              Afro Hair Salons Turn Clicks Into <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-amber-200 italic">Clients</span>
+            <motion.h1 variants={fadeInUp} className="text-5xl md:text-6xl lg:text-7xl font-serif text-slate-900 dark:text-white leading-[1.1]">
+              Afro Hair Salons Turn Clicks Into <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-amber-500 dark:to-amber-200 italic">Clients</span>
             </motion.h1>
             
-            <motion.p variants={fadeInUp} className="text-xl text-slate-300 leading-relaxed max-w-lg font-light">
+            <motion.p variants={fadeInUp} className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg font-light">
                 We help UK Afro hair salons get more bookings, better clients, and reliable monthly income with done-for-you digital marketing.
             </motion.p>
             
@@ -82,22 +87,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               <Button onClick={() => onNavigate(Page.BOOKING)} className="shadow-secondary/20 shadow-lg">
                 Book My Strategy Session
               </Button>
-              <Button variant="outline" onClick={() => onNavigate(Page.SERVICES)} className="border-slate-700 text-slate-300 hover:bg-white/5 hover:border-white">
+              <Button variant="outline" onClick={() => onNavigate(Page.SERVICES)} className="border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:border-white">
                 View Services
               </Button>
             </motion.div>
 
-            <motion.div variants={fadeInUp} className="flex items-center gap-4 pt-4 border-t border-white/10">
+            <motion.div variants={fadeInUp} className="flex items-center gap-4 pt-4 border-t border-slate-200 dark:border-white/10">
               <div className="flex -space-x-3">
                  {[10, 11, 12, 13].map(i => (
-                     <img key={i} src={`https://picsum.photos/100/100?random=${i}`} className="w-10 h-10 rounded-full border-2 border-slate-900" alt="Client" />
+                     <img key={i} src={`https://picsum.photos/100/100?random=${i}`} className="w-10 h-10 rounded-full border-2 border-white dark:border-slate-900" alt="Client" />
                  ))}
               </div>
               <div className="text-sm">
                 <div className="flex text-secondary">
                   {[1, 2, 3, 4, 5].map((i) => <Star key={i} fill="currentColor" className="w-4 h-4" />)}
                 </div>
-                <span className="text-slate-400">Trusted by 128+ Salon Owners</span>
+                <span className="text-slate-500 dark:text-slate-400">Trusted by 128+ Salon Owners</span>
               </div>
             </motion.div>
           </motion.div>
@@ -109,11 +114,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             transition={{ duration: 1, delay: 0.2 }}
             className="relative hidden lg:block"
           >
-            <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+            <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-white/10">
               <img 
                 src="https://picsum.photos/800/1000?random=1" 
                 alt="Salon Owner Success" 
-                className="w-full h-auto object-cover"
+                className="w-full h-[500px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent"></div>
               
