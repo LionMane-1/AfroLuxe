@@ -27,7 +27,7 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
       author: "Melanie S.",
       category: "Trends & Techniques",
       image: "https://picsum.photos/600/400?random=26",
-      // IMPORTANT: No 'link' property here. Internal navigation only.
+      // IMPORTANT: Using internalPage navigation instead of external link
       internalPage: Page.BLOG_POST_TIME_AUDIT 
     },
     {
@@ -38,7 +38,6 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
       author: "Melanie S.",
       category: "Growth Strategy",
       image: "https://picsum.photos/600/400?random=20",
-      // Placeholder link for other posts (acts as external for demo purposes if needed, or non-functional)
     },
     {
       id: 2,
@@ -93,8 +92,7 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
     } else if (post.link) {
         window.open(post.link, '_blank');
     } else {
-        // Fallback for demo posts without real links
-        // We could also show a "Coming Soon" toast here
+        // Fallback for posts without real links
         console.log("No link defined for this post");
     }
   };
