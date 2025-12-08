@@ -9,6 +9,7 @@ import { AboutPage } from './pages/AboutPage';
 import { AuthPage } from './pages/AuthPage';
 import { BookingPage } from './pages/BookingPage';
 import { ContactPage } from './pages/ContactPage';
+import { BlogPage } from './pages/BlogPage';
 import { Page } from './types';
 import { AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
@@ -42,6 +43,8 @@ const App: React.FC = () => {
         return <BookingPage />;
       case Page.CONTACT:
         return <ContactPage />;
+      case Page.BLOG:
+        return <BlogPage onNavigate={setCurrentPage} />;
       default:
         return <LandingPage onNavigate={setCurrentPage} />;
     }
