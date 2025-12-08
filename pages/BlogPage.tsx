@@ -3,7 +3,7 @@ import React from 'react';
 import { Section, PageHeader } from '../components/Section';
 import { Button } from '../components/Button';
 import { Page } from '../types';
-import { Calendar, User, ArrowRight, Tag } from 'lucide-react';
+import { Calendar, User, ArrowRight, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface BlogPost {
@@ -103,9 +103,16 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                     transition={{ delay: idx * 0.1 }}
                     className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col h-full group"
                 >
+                    {/* Image Section */}
                     <div className="relative h-48 overflow-hidden">
                         {post.link ? (
-                            <a href={post.link} target="_blank" rel="noopener noreferrer" className="block w-full h-full cursor-pointer">
+                            <a 
+                                href={post.link} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="block w-full h-full cursor-pointer"
+                                onClick={(e) => e.stopPropagation()}
+                            >
                                 <img 
                                     src={post.image} 
                                     alt={post.title} 
@@ -124,6 +131,7 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                         </div>
                     </div>
                     
+                    {/* Content Section */}
                     <div className="p-6 flex flex-col flex-grow">
                         <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-4">
                             <div className="flex items-center gap-1">
@@ -137,7 +145,13 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                         </div>
 
                         {post.link ? (
-                            <a href={post.link} target="_blank" rel="noopener noreferrer" className="block group/title">
+                            <a 
+                                href={post.link} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="block group/title"
+                                onClick={(e) => e.stopPropagation()}
+                            >
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 font-serif leading-tight group-hover/title:text-primary dark:group-hover/title:text-secondary transition-colors">
                                     {post.title}
                                 </h3>
@@ -152,21 +166,30 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                             {post.excerpt}
                         </p>
                         
-                        <a 
-                            href={post.link || '#'}
-                            target={post.link ? "_blank" : undefined}
-                            rel={post.link ? "noopener noreferrer" : undefined}
-                            className="flex items-center gap-2 text-sm font-bold text-primary dark:text-secondary group/btn w-fit cursor-pointer hover:underline"
-                            onClick={(e) => {
-                                if (!post.link) {
+                        {/* Call to Action */}
+                        {post.link ? (
+                            <a 
+                                href={post.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-sm font-bold text-primary dark:text-secondary group/btn w-fit cursor-pointer hover:underline mt-auto"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                Read External Article 
+                                <ExternalLink className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
+                            </a>
+                        ) : (
+                            <button 
+                                className="flex items-center gap-2 text-sm font-bold text-primary dark:text-secondary group/btn w-fit cursor-pointer hover:underline mt-auto"
+                                onClick={(e) => {
                                     e.preventDefault();
-                                    /* Placeholder for internal navigation or modal */
-                                }
-                            }}
-                        >
-                            Read Article 
-                            <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
-                        </a>
+                                    /* Placeholder for internal post navigation */
+                                }}
+                            >
+                                Read Article 
+                                <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
+                            </button>
+                        )}
                     </div>
                 </motion.div>
             ))}
