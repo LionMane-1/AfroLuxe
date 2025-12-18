@@ -3,62 +3,65 @@ import React from 'react';
 import { Section, PageHeader } from '../components/Section';
 import { Button } from '../components/Button';
 import { Page } from '../types';
-import { Check, Zap, Crown, Shield } from 'lucide-react';
+import { Check, Zap, Crown, Shield, MapPin, Users, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const ServicesPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNavigate }) => {
   const tiers = [
     {
-      name: "The Essentials",
+      name: "Local Dominance",
       price: "£495",
       period: "/month",
-      desc: "Perfect for solo stylists needing a professional digital presence.",
+      desc: "Perfect for ensuring your salon is the #1 choice in your immediate postcode.",
       color: "border-slate-200 dark:border-slate-700",
-      icon: <Shield className="w-6 h-6" />,
+      icon: <MapPin className="w-6 h-6" />,
       features: [
-        "High-Converting Website (One-Pager)",
-        "Google Business Profile Optimization",
-        "Automated Booking System Setup",
-        "Monthly Performance Report",
-        "Email Support"
+        "GBP Audit & Full Optimization",
+        "Local Keyword & Area Strategy",
+        "NAP Consistency Management",
+        "Review Request Playbook",
+        "Monthly Visibility Reporting",
+        "Conversion-Ready One-Pager"
       ],
-      cta: "Start Growing",
+      cta: "Dominate Locally",
       popular: false
     },
     {
-      name: "The Growth Engine",
+      name: "Yield & Recruitment",
       price: "£1,250",
       period: "/month",
-      desc: "For established salons ready to dominate their local area.",
+      desc: "Our most popular choice for growing salons needing more chairs filled and more staff.",
       color: "border-secondary ring-2 ring-secondary shadow-2xl scale-105 z-10",
-      icon: <Zap className="w-6 h-6 text-white" />,
+      icon: <TrendingUp className="w-6 h-6 text-white" />,
       features: [
-        "Everything in Essentials",
-        "Full AI Receptionist (Melanie)",
+        "Everything in Local Dominance",
+        "Recruitment Funnel Setup",
+        "Slow-Day Fill Campaigns",
+        "AI Voice Receptionist (Melanie)",
         "Social Media Management (3 posts/wk)",
-        "Reputation Management (Reviews)",
-        "Paid Ads Management (£500 spend limit)",
+        "Paid Ads Management (Up to £500)",
         "Bi-Weekly Strategy Calls"
       ],
-      cta: "Dominant Choice",
+      cta: "Full Growth Suite",
       popular: true
     },
     {
       name: "Market Leader",
       price: "£2,500",
       period: "/month",
-      desc: "Complete digital takeover for multi-chair or multi-location brands.",
+      desc: "Total digital takeover for multi-location brands and high-street icons.",
       color: "border-slate-200 dark:border-slate-700",
       icon: <Crown className="w-6 h-6" />,
       features: [
-        "Everything in Growth Engine",
-        "Video Content Production (On-site)",
-        "Unlimited Paid Ads Management",
+        "Everything in Yield & Recruitment",
+        "On-site Content Production",
         "Advanced CRM Automations",
-        "Competitor Analysis & Takedown",
-        "24/7 VIP Support Line"
+        "Custom Loyalty Loop Systems",
+        "Competitor 'Takeover' Strategy",
+        "24/7 VIP Priority Support",
+        "Unlimited Ad Spend Management"
       ],
-      cta: "Scale Up",
+      cta: "Scale Brand",
       popular: false
     }
   ];
@@ -66,8 +69,8 @@ export const ServicesPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ o
   return (
     <>
       <PageHeader 
-        title="Invest in Growth, Not Just Ads" 
-        subtitle="Transparent pricing packages designed to turn your salon into a booking machine." 
+        title="Predictable Growth for Afro Salons" 
+        subtitle="No guessing. No fluff. Just the systems you need to stay fully booked and fully staffed." 
       />
       
       <Section background="light" pattern>
@@ -122,12 +125,12 @@ export const ServicesPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ o
         </div>
 
         <div className="mt-16 text-center">
-            <p className="text-slate-600 dark:text-slate-400 mb-4">Not sure which package is right for you?</p>
+            <p className="text-slate-600 dark:text-slate-400 mb-4">Not sure which pillar to prioritize?</p>
             <button 
                 onClick={() => onNavigate(Page.BOOKING)}
                 className="text-primary dark:text-secondary font-bold hover:underline"
             >
-                Book a Free 15-Min Audit Call →
+                Book a Free 15-Min Strategy Audit →
             </button>
         </div>
       </Section>
