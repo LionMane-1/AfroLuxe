@@ -6,8 +6,57 @@ import { Page } from '../types';
 import { ArrowLeft, Clock, User, Calendar, Share2 } from 'lucide-react';
 
 export const BlogPost_TimeAudit: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNavigate }) => {
+  // Prepare JSON-LD Schema for the individual post
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": "https://afrohairlux.com/blog/30-minute-wash-day-routine-for-afro-hair/#article",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://afrohairlux.com/blog/30-minute-wash-day-routine-for-afro-hair/"
+    },
+    "headline": "30-Minute Wash Days? Yes, It's Possible. Here's The Routine",
+    "description": "Tired of 3-hour wash days? Discover actionable afro hair hacks for 2025 tailored for busy professionals. Learn how to save time without sacrificing moisture.",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://picsum.photos/600/400?random=26",
+      "width": 1200,
+      "height": 630
+    },
+    "datePublished": "2025-12-08T10:00:00+00:00",
+    "dateModified": "2025-12-08T10:00:00+00:00",
+    "author": {
+      "@type": "Person",
+      "name": "Melanie S.",
+      "url": "https://afrohairlux.com/about"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Afro Hair Lux",
+      "@id": "https://afrohairlux.com/#organization",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://afrohairlux.com/logo.png",
+        "width": 600,
+        "height": 60
+      }
+    },
+    "isPartOf": {
+      "@type": "Blog",
+      "@id": "https://afrohairlux.com/blog#blog"
+    },
+    "wordCount": "850",
+    "articleSection": "Trends & Techniques",
+    "keywords": "afro hair, wash day routine, 4C hair care, time-audit, natural hair hacks"
+  };
+
   return (
     <div className="bg-white dark:bg-slate-950 min-h-screen">
+      {/* Step 3: Injecting JSON-LD Schema */}
+      <script type="application/ld+json">
+        {JSON.stringify(articleSchema)}
+      </script>
+
       {/* Hero / Header Section */}
       <div className="bg-slate-900 pt-32 pb-16 px-6 relative overflow-hidden">
         {/* Abstract Background */}
@@ -51,8 +100,6 @@ export const BlogPost_TimeAudit: React.FC<{ onNavigate: (page: Page) => void }> 
       {/* Main Content */}
       <Section background="white">
           <div className="max-w-3xl mx-auto prose prose-lg prose-slate dark:prose-invert">
-              
-              {/* === START OF STATIC CONTENT === */}
               
               <h1 className="text-3xl font-serif font-bold text-slate-900 dark:text-white mb-6">
                 30-Minute Wash Day Routine for Afro Hair (3C–4C Time-Audit Guide)
@@ -241,8 +288,6 @@ export const BlogPost_TimeAudit: React.FC<{ onNavigate: (page: Page) => void }> 
                   </p>
                 </div>
               </div>
-
-              {/* === END OF STATIC CONTENT === */}
 
               <div className="border-t border-slate-200 dark:border-slate-700 pt-8 mt-12 flex justify-between items-center">
                   <div className="text-sm font-bold text-slate-500">Share this guide</div>
