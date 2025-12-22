@@ -1,4 +1,3 @@
-
 # Afro Hair Lux Marketing - Technical Specification & Handover
 
 ## 1. URL Restructuring & Routing Requirements
@@ -30,7 +29,21 @@ We have implemented a multi-layered Schema.org integration to enhance Search Eng
 
 ---
 
-## 3. Expected Deliverables (Implemented)
+## 3. Sitemap & Indexing (New)
+A standard XML sitemap has been deployed at the root directory (`/sitemap.xml`).
+
+### Included Endpoints:
+- Homepage
+- Primary Service Pillars
+- Blog Index
+- Individual Article Slugs
+
+### Maintenance:
+When adding new blog posts or service areas, the `sitemap.xml` file must be manually updated in the project root to include the new `<url>` nodes. In a CI/CD environment, this can be automated via a post-build script that parses the `PAGE_TO_PATH` object in `App.tsx`.
+
+---
+
+## 4. Expected Deliverables (Implemented)
 
 ### A. High-Conversion Blog Index
 - **Visuals**: Responsive card-based layout with category badges and hover animations.
@@ -49,5 +62,5 @@ We have implemented a multi-layered Schema.org integration to enhance Search Eng
 
 ---
 
-## 4. Maintenance & Scaling
+## 5. Maintenance & Scaling
 New blog posts should be added to the `BlogPost` interface in `pages/BlogPage.tsx` and the `Page` enum in `types.ts`. Ensure that the `PAGE_TO_PATH` map in `App.tsx` is updated for every new URL slug created.
