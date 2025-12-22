@@ -33,6 +33,15 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
     { label: 'Contact', page: Page.CONTACT },
   ];
 
+  const handleLinkClick = (e: React.MouseEvent, page: Page) => {
+    // Only prevent default if it's a left click without modifiers to allow standard browser behavior (open in new tab)
+    if (e.button === 0 && !e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
+        e.preventDefault();
+        onNavigate(page);
+        setMobileMenuOpen(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-light text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
       {/* Sticky Navigation */}
@@ -203,11 +212,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
           <div>
             <h3 className="text-secondary font-serif text-lg mb-6">Quick Links</h3>
             <ul className="space-y-3 text-slate-300 text-sm">
-              <li><button onClick={() => onNavigate(Page.SERVICES)} className="hover:text-white transition-colors">Services</button></li>
-              <li><button onClick={() => onNavigate(Page.SERVICE_AREA)} className="hover:text-white transition-colors">Service Areas</button></li>
-              <li><button onClick={() => onNavigate(Page.ABOUT)} className="hover:text-white transition-colors">About Us</button></li>
-              <li><button onClick={() => onNavigate(Page.BOOKING)} className="hover:text-white transition-colors">Book Appointment</button></li>
-              <li><button onClick={() => onNavigate(Page.BLOG)} className="hover:text-white transition-colors">Blog</button></li>
+              <li><a href="/services" onClick={(e) => handleLinkClick(e, Page.SERVICES)} className="hover:text-white transition-colors">Services</a></li>
+              <li><a href="/service-areas" onClick={(e) => handleLinkClick(e, Page.SERVICE_AREA)} className="hover:text-white transition-colors">Service Areas</a></li>
+              <li><a href="/about" onClick={(e) => handleLinkClick(e, Page.ABOUT)} className="hover:text-white transition-colors">About Us</a></li>
+              <li><a href="/booking" onClick={(e) => handleLinkClick(e, Page.BOOKING)} className="hover:text-white transition-colors">Book Appointment</a></li>
+              <li><a href="https://afrohairlux.com/blog" onClick={(e) => handleLinkClick(e, Page.BLOG)} className="hover:text-white transition-colors">Blog</a></li>
             </ul>
           </div>
 
