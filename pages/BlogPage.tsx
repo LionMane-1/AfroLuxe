@@ -27,7 +27,6 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
       author: "Melanie S.",
       category: "Trends & Techniques",
       image: "https://picsum.photos/600/400?random=26",
-      // IMPORTANT: Using internalPage navigation instead of external link
       internalPage: Page.BLOG_POST_TIME_AUDIT 
     },
     {
@@ -86,19 +85,50 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
     }
   ];
 
+  // Prepare JSON-LD Schema
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": "https://afrohairlux.com/blog#blog",
+    "mainEntityOfPage": "https://afrohairlux.com/blog",
+    "name": "Afro Hair Lux Blog",
+    "description": "Expert tips, tutorials, and insights for afro and natural hair care",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Afro Hair Lux",
+      "@id": "https://afrohairlux.com/#organization",
+      "url": "https://afrohairlux.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://afrohairlux.com/logo.png"
+      }
+    },
+    "blogPost": posts.map(post => ({
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "url": post.internalPage === Page.BLOG_POST_TIME_AUDIT 
+        ? "https://afrohairlux.com/blog/30-minute-wash-day-routine-for-afro-hair/"
+        : `https://afrohairlux.com/blog/${post.id}` // Fallback for other posts
+    }))
+  };
+
   const handlePostClick = (post: BlogPost) => {
     if (post.internalPage) {
         onNavigate(post.internalPage);
     } else if (post.link) {
         window.open(post.link, '_blank');
     } else {
-        // Fallback for posts without real links
         console.log("No link defined for this post");
     }
   };
 
   return (
     <>
+      {/* Step 2: Injecting JSON-LD Schema */}
+      <script type="application/ld+json">
+        {JSON.stringify(blogSchema)}
+      </script>
+
       <PageHeader 
         title="Insights & Strategy" 
         subtitle="Expert advice, industry trends, and growth hacks for the modern Afro hair business." 
@@ -115,7 +145,6 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                     transition={{ delay: idx * 0.1 }}
                     className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col h-full group"
                 >
-                    {/* Image Section - Clickable */}
                     <div 
                         className="relative h-48 overflow-hidden cursor-pointer"
                         onClick={() => handlePostClick(post)}
@@ -130,7 +159,6 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                         </div>
                     </div>
                     
-                    {/* Content Section */}
                     <div className="p-6 flex flex-col flex-grow">
                         <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-4">
                             <div className="flex items-center gap-1">
@@ -143,7 +171,6 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                             </div>
                         </div>
 
-                        {/* Title - Clickable */}
                         <div 
                             onClick={() => handlePostClick(post)}
                             className="cursor-pointer group/title"
@@ -157,11 +184,10 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
                             {post.excerpt}
                         </p>
                         
-                        {/* Call to Action - Clickable */}
                         <button 
                             className="flex items-center gap-2 text-sm font-bold text-primary dark:text-secondary group/btn w-fit cursor-pointer hover:underline mt-auto"
                             onClick={(e) => {
-                                e.stopPropagation(); // Prevent double click if bubble up
+                                e.stopPropagation();
                                 handlePostClick(post);
                             }}
                         >
