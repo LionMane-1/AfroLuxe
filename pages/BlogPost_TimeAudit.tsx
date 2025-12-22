@@ -50,11 +50,42 @@ export const BlogPost_TimeAudit: React.FC<{ onNavigate: (page: Page) => void }> 
     "keywords": "afro hair, wash day routine, 4C hair care, time-audit, natural hair hacks"
   };
 
+  // Step 5: Breadcrumb Schema for Post
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://afrohairlux.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://afrohairlux.com/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "30-Minute Wash Days? Yes, It's Possible. Here's The Routine",
+        "item": "https://afrohairlux.com/blog/30-minute-wash-day-routine-for-afro-hair/"
+      }
+    ]
+  };
+
   return (
     <div className="bg-white dark:bg-slate-950 min-h-screen">
       {/* Step 3: Injecting JSON-LD Schema */}
       <script type="application/ld+json">
         {JSON.stringify(articleSchema)}
+      </script>
+
+      {/* Step 5: Injecting Breadcrumb Schema */}
+      <script type="application/ld+json">
+        {JSON.stringify(breadcrumbSchema)}
       </script>
 
       {/* Hero / Header Section */}

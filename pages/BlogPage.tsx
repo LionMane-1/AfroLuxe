@@ -108,8 +108,28 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
       "headline": post.title,
       "url": post.internalPage === Page.BLOG_POST_TIME_AUDIT 
         ? "https://afrohairlux.com/blog/30-minute-wash-day-routine-for-afro-hair/"
-        : `https://afrohairlux.com/blog/${post.id}` // Fallback for other posts
+        : `https://afrohairlux.com/blog/${post.id}` 
     }))
+  };
+
+  // Step 5: Breadcrumb Schema for Index
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://afrohairlux.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://afrohairlux.com/blog"
+      }
+    ]
   };
 
   const handlePostClick = (post: BlogPost) => {
@@ -127,6 +147,11 @@ export const BlogPage: React.FC<{ onNavigate: (page: Page) => void }> = ({ onNav
       {/* Step 2: Injecting JSON-LD Schema */}
       <script type="application/ld+json">
         {JSON.stringify(blogSchema)}
+      </script>
+
+      {/* Step 5: Injecting Breadcrumb Schema */}
+      <script type="application/ld+json">
+        {JSON.stringify(breadcrumbSchema)}
       </script>
 
       <PageHeader 
