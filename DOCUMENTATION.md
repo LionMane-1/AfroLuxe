@@ -1,3 +1,4 @@
+
 # Afro Hair Lux Marketing - Technical Specification & Handover
 
 ## 1. URL Restructuring & Routing Requirements
@@ -5,12 +6,13 @@ To ensure maximum SEO visibility and "link juice" retention, the application tra
 
 ### Requirements:
 - **Clean URLs**: Elimination of hash-based routing (`/#/blog`) in favor of standard directory structures (`/blog`).
-- **Deep Linking**: Direct access to articles (e.g., `/blog/30-minute-wash-day-routine-for-afro-hair/`) must resolve to the correct React component state.
+- **Deep Linking**: Direct access to articles (e.g., `/blog/30-minute-wash-day-routine-for-afro-hair`) must resolve to the correct React component state.
 - **History API Integration**: Use of `window.history.pushState` to maintain Single Page Application (SPA) performance while updating the browser's address bar.
 - **State Synchronization**: A centralized `navigate` function in `App.tsx` that updates both the internal `currentPage` state and the browser's `pathname`.
+- **Server-Side Redirects**: A `_redirects` file ensures that direct URL access to sub-paths (like `/services`) correctly serves `index.html` rather than a 404 error.
 
 ### Implementation:
-The `App.tsx` file contains the `PAGE_TO_PATH` and `PATH_TO_PAGE` mapping objects. A `popstate` event listener handles browser back/forward buttons, ensuring the UI stays in sync with the URL.
+The `App.tsx` file contains the `PAGE_TO_PATH` and `PATH_TO_PAGE` mapping objects. A `normalizePath` helper strips trailing slashes to ensure robust lookups. A `popstate` event listener handles browser back/forward buttons, ensuring the UI stays in sync with the URL.
 
 ---
 
@@ -29,7 +31,7 @@ We have implemented a multi-layered Schema.org integration to enhance Search Eng
 
 ---
 
-## 3. Sitemap & Indexing (New)
+## 3. Sitemap & Indexing
 A standard XML sitemap has been deployed at the root directory (`/sitemap.xml`).
 
 ### Included Endpoints:

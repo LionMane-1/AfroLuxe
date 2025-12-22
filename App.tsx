@@ -26,7 +26,7 @@ const PAGE_TO_PATH: Record<Page, string> = {
   [Page.BOOKING]: '/booking',
   [Page.CONTACT]: '/contact',
   [Page.BLOG]: '/blog',
-  [Page.BLOG_POST_TIME_AUDIT]: '/blog/30-minute-wash-day-routine-for-afro-hair/'
+  [Page.BLOG_POST_TIME_AUDIT]: '/blog/30-minute-wash-day-routine-for-afro-hair'
 };
 
 const PATH_TO_PAGE: Record<string, Page> = Object.entries(PAGE_TO_PATH).reduce(
@@ -38,15 +38,21 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState<Page>(Page.LANDING);
 
+  // Helper to normalize paths for lookup (removes trailing slash except for root)
+  const normalizePath = (path: string) => {
+    if (path === '/') return '/';
+    return path.endsWith('/') ? path.slice(0, -1) : path;
+  };
+
   // Initialize page based on current URL path
   useEffect(() => {
-    const path = window.location.pathname;
+    const path = normalizePath(window.location.pathname);
     const initialPage = PATH_TO_PAGE[path] || Page.LANDING;
     setCurrentPage(initialPage);
 
     // Handle browser back/forward buttons
     const handlePopState = () => {
-      const newPath = window.location.pathname;
+      const newPath = normalizePath(window.location.pathname);
       setCurrentPage(PATH_TO_PAGE[newPath] || Page.LANDING);
     };
 
