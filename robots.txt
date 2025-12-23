@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Allow: /services
+Allow: /about
+Allow: /contact
+Allow: /booking
+Allow: /blog/
+
+Sitemap: https://afrohairlux.com/sitemap.xml

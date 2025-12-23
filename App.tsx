@@ -11,6 +11,7 @@ import { BookingPage } from './pages/BookingPage';
 import { ContactPage } from './pages/ContactPage';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPost_TimeAudit } from './pages/BlogPost_TimeAudit';
+import { AdminDashboard } from './pages/AdminDashboard';
 import { Page } from './types';
 import { AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
@@ -26,7 +27,8 @@ const PAGE_TO_PATH: Record<Page, string> = {
   [Page.BOOKING]: '/booking',
   [Page.CONTACT]: '/contact',
   [Page.BLOG]: '/blog',
-  [Page.BLOG_POST_TIME_AUDIT]: '/blog/30-minute-wash-day-routine-for-afro-hair'
+  [Page.BLOG_POST_TIME_AUDIT]: '/blog/30-minute-wash-day-routine-for-afro-hair',
+  [Page.ADMIN]: '/admin'
 };
 
 const PATH_TO_PAGE: Record<string, Page> = Object.entries(PAGE_TO_PATH).reduce(
@@ -90,7 +92,7 @@ const App: React.FC = () => {
       case Page.ABOUT:
         return <AboutPage />;
       case Page.LOGIN:
-        return <AuthPage onAuthSuccess={() => navigate(Page.LANDING)} />;
+        return <AuthPage onAuthSuccess={() => navigate(Page.ADMIN)} />;
       case Page.BOOKING:
         return <BookingPage />;
       case Page.CONTACT:
@@ -99,6 +101,8 @@ const App: React.FC = () => {
         return <BlogPage onNavigate={navigate} />;
       case Page.BLOG_POST_TIME_AUDIT:
         return <BlogPost_TimeAudit onNavigate={navigate} />;
+      case Page.ADMIN:
+        return <AdminDashboard onNavigate={navigate} />;
       default:
         return <LandingPage onNavigate={navigate} />;
     }
@@ -107,8 +111,8 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <AnimatePresence>
-          {isLoading && <Preloader />}
+        <AnimatePresence mode="wait">
+          {isLoading && <Preloader key="preloader" />}
         </AnimatePresence>
 
         {!isLoading && (

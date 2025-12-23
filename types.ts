@@ -8,7 +8,8 @@ export enum Page {
   BOOKING = 'BOOKING',
   CONTACT = 'CONTACT',
   BLOG = 'BLOG',
-  BLOG_POST_TIME_AUDIT = 'BLOG_POST_TIME_AUDIT'
+  BLOG_POST_TIME_AUDIT = 'BLOG_POST_TIME_AUDIT',
+  ADMIN = 'ADMIN'
 }
 
 export interface ServiceItem {
