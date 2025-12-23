@@ -7,21 +7,20 @@ import {
   Users, 
   PhoneCall, 
   MapPin, 
-  CheckCircle2, 
+  CheckCircle, 
   AlertCircle, 
   ArrowUpRight, 
   ExternalLink, 
   ShieldCheck,
-  CloudLightning,
-  BarChart3,
+  Zap,
+  BarChart,
   Terminal,
   Server,
   Box,
   Globe,
   Lock,
   Link as LinkIcon,
-  Search,
-  Zap
+  Search
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -37,11 +36,11 @@ export const AdminDashboard: React.FC<{ onNavigate: (page: Page) => void }> = ({
   ];
 
   const deploymentSteps = [
-    { id: 1, label: "CLI Installation", status: "Complete", icon: <CheckCircle2 className="w-4 h-4 text-green-500" /> },
-    { id: 2, label: "Firebase Login", status: "Complete", icon: <CheckCircle2 className="w-4 h-4 text-green-500" /> },
-    { id: 3, label: "Hosting Initialization", status: "Complete", icon: <CheckCircle2 className="w-4 h-4 text-green-500" /> },
-    { id: 4, label: "Application Build", status: "Complete", icon: <CheckCircle2 className="w-4 h-4 text-green-500" /> },
-    { id: 5, label: "Production Deploy", status: "Complete", icon: <CheckCircle2 className="w-4 h-4 text-green-500" /> }
+    { id: 1, label: "CLI Installation", status: "Complete", icon: <CheckCircle className="w-4 h-4 text-green-500" /> },
+    { id: 2, label: "Firebase Login", status: "Complete", icon: <CheckCircle className="w-4 h-4 text-green-500" /> },
+    { id: 3, label: "Hosting Initialization", status: "Complete", icon: <CheckCircle className="w-4 h-4 text-green-500" /> },
+    { id: 4, label: "Application Build", status: "Complete", icon: <CheckCircle className="w-4 h-4 text-green-500" /> },
+    { id: 5, label: "Production Deploy", status: "Complete", icon: <CheckCircle className="w-4 h-4 text-green-500" /> }
   ];
 
   const verificationTargets = [
@@ -161,7 +160,7 @@ export const AdminDashboard: React.FC<{ onNavigate: (page: Page) => void }> = ({
                         disabled={verifying}
                         className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-all disabled:opacity-50"
                     >
-                        {verifying ? <CloudLightning className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                        {verifying ? <Zap className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
                         Re-Verify Routes
                     </button>
                 </div>
@@ -182,7 +181,7 @@ export const AdminDashboard: React.FC<{ onNavigate: (page: Page) => void }> = ({
                                 </div>
                                 {isVerified ? (
                                     <div className="flex items-center gap-1.5 text-xs font-bold text-green-500">
-                                        <CheckCircle2 className="w-4 h-4" /> VERIFIED
+                                        <CheckCircle className="w-4 h-4" /> VERIFIED
                                     </div>
                                 ) : (
                                     <div className="w-4 h-4 border-2 border-slate-300 dark:border-slate-600 border-t-primary rounded-full animate-spin"></div>
@@ -203,7 +202,7 @@ export const AdminDashboard: React.FC<{ onNavigate: (page: Page) => void }> = ({
 
             <div className="bg-slate-900 text-white p-8 rounded-2xl relative overflow-hidden flex flex-col justify-between">
                 <div className="absolute top-0 right-0 p-8 opacity-10">
-                    <BarChart3 className="w-32 h-32" />
+                    <BarChart className="w-32 h-32" />
                 </div>
                 <div>
                     <h3 className="text-xl font-serif font-bold mb-4">Technical SEO Health</h3>

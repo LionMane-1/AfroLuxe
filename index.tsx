@@ -1,6 +1,13 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+
+// Global shim for process.env to prevent ReferenceErrors
+// Fix: Access 'process' property via type assertion to 'any' to avoid TypeScript error on standard Window type
+if (typeof window !== 'undefined' && !(window as any).process) {
+  (window as any).process = { env: {} };
+}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
