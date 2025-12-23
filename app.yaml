@@ -1,0 +1,12 @@
+runtime: nodejs20
+
+handlers:
+  # Static assets (JS, CSS, etc.)
+  - url: /(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))$
+    static_files: \1
+    upload: .*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$
+
+  # Catch-all for SPA routes
+  - url: /.*
+    static_files: index.html
+    upload: index.html
