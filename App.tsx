@@ -14,7 +14,7 @@ import { BlogPost_TimeAudit } from './pages/BlogPost_TimeAudit';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { Page } from './types';
 import { AnimatePresence } from 'framer-motion';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 
 // Mapping between internal Page enum and URL paths
@@ -36,23 +36,21 @@ const PATH_TO_PAGE: Record<string, Page> = Object.entries(PAGE_TO_PATH).reduce(
   {} as Record<string, Page>
 );
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState<Page>(Page.LANDING);
+  const { user } = useAuth();
 
-  // Helper to normalize paths for lookup (removes trailing slash except for root)
   const normalizePath = (path: string) => {
     if (path === '/') return '/';
     return path.endsWith('/') ? path.slice(0, -1) : path;
   };
 
-  // Initialize page based on current URL path
   useEffect(() => {
     const path = normalizePath(window.location.pathname);
     const initialPage = PATH_TO_PAGE[path] || Page.LANDING;
     setCurrentPage(initialPage);
 
-    // Handle browser back/forward buttons
     const handlePopState = () => {
       const newPath = normalizePath(window.location.pathname);
       setCurrentPage(PATH_TO_PAGE[newPath] || Page.LANDING);
@@ -60,7 +58,6 @@ const App: React.FC = () => {
 
     window.addEventListener('popstate', handlePopState);
     
-    // Simulate initial resource loading
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2500);
@@ -71,7 +68,6 @@ const App: React.FC = () => {
     };
   }, []);
 
-  // Custom navigation function that updates both state and URL
   const navigate = (page: Page) => {
     const path = PAGE_TO_PATH[page] || '/';
     if (window.location.pathname !== path) {
@@ -102,6 +98,10 @@ const App: React.FC = () => {
       case Page.BLOG_POST_TIME_AUDIT:
         return <BlogPost_TimeAudit onNavigate={navigate} />;
       case Page.ADMIN:
+        // Protected Route
+        if (!user || user.is_guest) {
+           return <AuthPage onAuthSuccess={() => navigate(Page.ADMIN)} />;
+        }
         return <AdminDashboard onNavigate={navigate} />;
       default:
         return <LandingPage onNavigate={navigate} />;
@@ -109,17 +109,25 @@ const App: React.FC = () => {
   };
 
   return (
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && <Preloader key="preloader" />}
+      </AnimatePresence>
+
+      {!isLoading && (
+        <Layout currentPage={currentPage} onNavigate={navigate}>
+          {renderPage()}
+        </Layout>
+      )}
+    </>
+  );
+};
+
+const App: React.FC = () => {
+  return (
     <AuthProvider>
       <ThemeProvider>
-        <AnimatePresence mode="wait">
-          {isLoading && <Preloader key="preloader" />}
-        </AnimatePresence>
-
-        {!isLoading && (
-          <Layout currentPage={currentPage} onNavigate={navigate}>
-            {renderPage()}
-          </Layout>
-        )}
+        <AppContent />
       </ThemeProvider>
     </AuthProvider>
   );
