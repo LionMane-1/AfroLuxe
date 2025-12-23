@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Page } from '../types';
-import { Menu, X, Scissors, Instagram, Facebook, Twitter, Phone, Sun, Moon, Linkedin, MessageCircle, Lock } from 'lucide-react';
+import { Menu, X, Scissors, Instagram, Facebook, Twitter, Phone, Sun, Moon, Linkedin, MessageCircle, Lock, LayoutDashboard } from 'lucide-react';
 import { Button } from './Button';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,12 +87,22 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
                   {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5 text-secondary" />}
                 </button>
 
-                <button 
-                    onClick={() => onNavigate(Page.LOGIN)}
-                    className="text-sm font-semibold text-primary hover:text-secondary transition-colors px-3 py-2 dark:text-slate-200 dark:hover:text-secondary"
-                >
-                    Log In
-                </button>
+                {user && !user.is_guest ? (
+                  <button 
+                      onClick={() => onNavigate(Page.ADMIN)}
+                      className="flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary transition-colors px-3 py-2 dark:text-slate-200 dark:hover:text-secondary bg-primary/5 rounded-lg border border-primary/10"
+                  >
+                      <LayoutDashboard className="w-4 h-4" /> Owner's Portal
+                  </button>
+                ) : (
+                  <button 
+                      onClick={() => onNavigate(Page.LOGIN)}
+                      className="text-sm font-semibold text-primary hover:text-secondary transition-colors px-3 py-2 dark:text-slate-200 dark:hover:text-secondary"
+                  >
+                      Log In
+                  </button>
+                )}
+                
                 <Button 
                     onClick={() => onNavigate(Page.BOOKING)} 
                     variant="primary" 
@@ -134,7 +146,13 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onNavigat
               </button>
             ))}
             <div className="grid grid-cols-2 gap-4 mt-4">
-                <button onClick={() => { onNavigate(Page.LOGIN); setMobileMenuOpen(false); }} className="text-center py-3 font-semibold text-primary border border-slate-200 rounded dark:text-white dark:border-slate-700">Log In</button>
+                {user && !user.is_guest ? (
+                  <button onClick={() => { onNavigate(Page.ADMIN); setMobileMenuOpen(false); }} className="text-center py-3 font-semibold text-primary border border-slate-200 rounded dark:text-white dark:border-slate-700 flex items-center justify-center gap-2">
+                    <LayoutDashboard className="w-4 h-4" /> Portal
+                  </button>
+                ) : (
+                  <button onClick={() => { onNavigate(Page.LOGIN); setMobileMenuOpen(false); }} className="text-center py-3 font-semibold text-primary border border-slate-200 rounded dark:text-white dark:border-slate-700">Log In</button>
+                )}
                 <Button onClick={() => { onNavigate(Page.BOOKING); setMobileMenuOpen(false); }} className="w-full">Book Audit</Button>
             </div>
           </div>
