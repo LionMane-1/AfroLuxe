@@ -19,11 +19,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if we are using the placeholder Supabase URL
-  const isDemoMode = !process.env.REACT_APP_SUPABASE_URL || process.env.REACT_APP_SUPABASE_URL.includes('xyzcompany');
+  // Safely check for demo mode without crashing if 'process' is undefined
+  const getIsDemoMode = () => {
+    try {
+      const url = (typeof process !== 'undefined' && process.env) ? process.env.REACT_APP_SUPABASE_URL : null;
+      return !url || url.includes('xyzcompany');
+    } catch {
+      return true;
+    }
+  };
+
+  const isDemoMode = getIsDemoMode();
 
   useEffect(() => {
-    // If in demo mode, check local storage for a fake session
     if (isDemoMode) {
       const storedUser = localStorage.getItem('demo_user');
       if (storedUser) {
@@ -33,7 +41,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
 
-    // Real Supabase Session Check
     const checkSession = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
@@ -45,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
            });
         }
       } catch (e) {
-        console.debug("Auth check skipped or failed");
+        console.debug("Supabase connection skipped in offline/demo mode");
       } finally {
         setLoading(false);
       }
@@ -67,20 +74,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     return () => {
-      authListener.subscription.unsubscribe();
+      authListener?.subscription?.unsubscribe();
     };
   }, [isDemoMode]);
 
   const signIn = async (email: string, pass: string) => {
     if (isDemoMode) {
-      // Simulate success for demo purposes
       if (email.includes('@') && pass.length >= 6) {
         const demoUser = { id: 'demo-admin-123', email, full_name: 'Salon Owner (Demo)', is_guest: false };
         setUser(demoUser);
         localStorage.setItem('demo_user', JSON.stringify(demoUser));
         return;
       }
-      throw new Error("Demo Login: Enter a valid email and at least 6 characters for the password.");
+      throw new Error("Invalid credentials. Try email: admin@afrohairlux.com and pass: password123");
     }
 
     const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
@@ -98,9 +104,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { error } = await supabase.auth.signUp({
       email,
       password: pass,
-      options: {
-        data: { full_name: name },
-      },
+      options: { data: { full_name: name } },
     });
     if (error) throw error;
   };
@@ -116,14 +120,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const continueAsGuest = (email: string, name: string) => {
-    const guestUser = {
-        id: `guest-${Date.now()}`,
-        email,
-        full_name: name,
-        is_guest: true
-    };
+    const guestUser = { id: `guest-${Date.now()}`, email, full_name: name, is_guest: true };
     setUser(guestUser);
-    // Guest sessions aren't typically persisted in localStorage for simplicity here
   };
 
   return (

@@ -75,11 +75,9 @@ export const VoiceAgentDemo: React.FC = () => {
   const [volume, setVolume] = useState(0);
   const [error, setError] = useState<string | null>(null);
   
-  // Chat State
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Refs for audio handling
   const inputAudioContextRef = useRef<AudioContext | null>(null);
   const outputAudioContextRef = useRef<AudioContext | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -88,16 +86,11 @@ export const VoiceAgentDemo: React.FC = () => {
   const sourcesRef = useRef<Set<AudioBufferSourceNode>>(new Set());
   const scriptProcessorRef = useRef<ScriptProcessorNode | null>(null);
 
-  // Initialize GenAI
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
   useEffect(() => {
-    // Auto-open the widget after a short delay for visibility
     const timer = setTimeout(() => setIsOpen(true), 1500);
     return () => clearTimeout(timer);
   }, []);
 
-  // Auto-scroll to bottom of chat
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -133,6 +126,9 @@ export const VoiceAgentDemo: React.FC = () => {
     setError(null);
     setMessages([]); 
     try {
+      // Create AI instance right before making an API call
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      
       inputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
       outputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
       
@@ -143,7 +139,6 @@ export const VoiceAgentDemo: React.FC = () => {
         model: 'gemini-2.5-flash-native-audio-preview-09-2025',
         callbacks: {
           onopen: () => {
-            console.log('Session opened');
             setIsConnected(true);
             setMessages([{ id: 'init', role: 'model', text: "Hello! I'm Melanie from AfroLuxe. Are you looking to grow your salon's local visibility or solve a recruitment headache?" }]);
 
@@ -242,7 +237,6 @@ export const VoiceAgentDemo: React.FC = () => {
             cleanup();
           },
           onclose: (e: CloseEvent) => {
-            console.log('Session closed');
             cleanup();
           },
         },
@@ -257,30 +251,11 @@ export const VoiceAgentDemo: React.FC = () => {
           
           IDENTITY & POLICIES (AHLM_OKP_v2_1):
           - We are a B2B digital marketing agency serving Afro hair salons. 
-          - We are NOT a salon. We do NOT provide hair services or take salon bookings.
-          - We do NOT guarantee specific Google rankings or lead volumes. 
-          - We focus on building systems that increase the likelihood of consistent enquiries.
-          
-          CORE PILLARS:
-          1. LOCAL DOMINANCE: GBP optimization and Local SEO to improve discovery.
-          2. RECRUITMENT MARKETING: Funnels to attract and convert high-quality stylists.
-          3. YIELD MANAGEMENT: Retention and slow-day strategies to stabilize demand.
-          
-          BOUNDARY SCRIPTS:
-          - MISDIRECTED CONSUMER: If asked "How much for braids?" or "Can I book an appointment?", reply: "Just to clarify — Afro Hair Lux Marketing is a marketing agency for salon owners. We don’t provide hair services. You’ll need to contact the salon directly for bookings."
-          - HAIR ADVICE: If asked for products or chemical advice, reply: "I can’t advise on haircare or products. If you’re a salon owner, I can help with marketing so you show up for those searches and convert the interest."
-          
-          COMMERCIALS:
-          - Pricing is "range_or_audit_confirmed". Say: "Pricing depends on scope — we’ll confirm the best fit after a quick audit."
+          - We are NOT a salon. We do NOT provide hair services.
           
           GOAL:
-          - Qualify if they are a salon owner/manager.
-          - Book a 15-minute Strategy Consultation.
-          
-          CONVERSATION RULES:
-          - Keep responses VERY SHORT (1-2 sentences).
-          - Use a warm, professional, British-Jamaican London accent.
-          - Always end with a question to drive the close.`,
+          - Qualify if they are a salon owner.
+          - Book a 15-minute Strategy Consultation.`,
         },
       };
 
@@ -305,7 +280,6 @@ export const VoiceAgentDemo: React.FC = () => {
             initial={{ y: 20, opacity: 0, scale: 0.9 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 20, opacity: 0, scale: 0.9 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className="fixed bottom-6 right-6 z-50 w-96 max-h-[600px] h-[80vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col font-sans"
           >
             <div className="bg-primary p-4 flex justify-between items-center shrink-0">

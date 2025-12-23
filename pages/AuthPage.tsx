@@ -56,13 +56,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess, allowGuest = 
   };
 
   const handleDemoLogin = async () => {
-    setFormData({ email: 'admin@afrohairlux.com', password: 'demo-password-123', fullName: 'Salon Owner' });
-    setIsLogin(true);
-    // Give it a tiny delay for visual feedback
-    setTimeout(() => {
-        const form = document.getElementById('auth-form') as HTMLFormElement;
-        if (form) form.requestSubmit();
-    }, 100);
+    setError(null);
+    setLoading(true);
+    try {
+        // Direct call to context signIn bypasses form submission lag
+        await signIn('admin@afrohairlux.com', 'demo-password-123');
+        if (onAuthSuccess) onAuthSuccess();
+    } catch (err: any) {
+        setError(err.message);
+    } finally {
+        setLoading(false);
+    }
   };
 
   return (
@@ -142,9 +146,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess, allowGuest = 
                 <p className="text-[10px] text-center font-bold text-slate-400 uppercase tracking-widest mb-4">Development Access</p>
                 <button 
                     onClick={handleDemoLogin}
-                    className="w-full py-3 bg-secondary/5 hover:bg-secondary/10 text-secondary rounded-lg border border-secondary/20 text-xs font-bold uppercase tracking-widest transition-all"
+                    disabled={loading}
+                    className="w-full py-3 bg-secondary/5 hover:bg-secondary/10 text-secondary rounded-lg border border-secondary/20 text-xs font-bold uppercase tracking-widest transition-all disabled:opacity-50"
                 >
-                    Try Demo Login
+                    {loading ? 'Logging in...' : 'Try Demo Login'}
                 </button>
             </div>
         )}
